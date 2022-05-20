@@ -17,6 +17,15 @@
 Data table is as follow;
 
 #### User
+- Store all user data
 - Data field: String username, String password
 - Sample data: [{"password":"pass","username":"admin"}, {"password":"user","username":"user_1"}]
 - Admin is the only user can edit or delete other user
+- Text file name: tb_user.txt
+- NOTE: tb_user.txt CAN'T BE EMPTY. Least should contain [{"password":"pass","username":"admin"}]
+
+#### Current User/Session
+- Store user's data that currently log in
+- If text file is empty then no user logged in, system will redirect to log in
+- Sample data: [{"password":"pass","username":"admin"}]
+- Text file name: tb_current_user.txt
