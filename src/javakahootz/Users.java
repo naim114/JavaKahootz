@@ -58,6 +58,18 @@ public class Users {
         return user;
     }
 
+    public User getUserByIndex(int index) {
+        User user = null;
+        for (int i = 0; i < this.users.size(); i++) {
+            if (i == index) {
+                JSONObject userJSON = (JSONObject) this.users.get(i);
+                user = new User(userJSON);
+            }
+        }
+
+        return user;
+    }
+
     public User getCurrentUser() {
         User current_user = null;
 
@@ -75,5 +87,20 @@ public class Users {
         }
 
         return current_user;
+    }
+
+    public JSONArray getJSONArray() throws IOException, ParseException {
+        JSONArray arr = null;
+
+        JSONParser parser = new JSONParser();
+        Reader reader = null;
+
+        try {
+            reader = new FileReader("tb_user.txt");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return (JSONArray) parser.parse(reader);
     }
 }

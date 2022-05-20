@@ -49,7 +49,7 @@ public class AnswerQuiz extends javax.swing.JFrame {
 
         jProgressBar1.setValue(47);
 
-        BtnExit.setBackground(new java.awt.Color(255, 0, 51));
+        BtnExit.setBackground(new ThemeColors().danger);
         BtnExit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnExit.setForeground(new java.awt.Color(255, 255, 255));
         BtnExit.setText("Exit & Discard");
@@ -215,7 +215,7 @@ public class AnswerQuiz extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnBackActionPerformed
 
     private void BtnCreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCreateQuizActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_BtnCreateQuizActionPerformed
 //
 //    /**
@@ -225,7 +225,7 @@ public class AnswerQuiz extends javax.swing.JFrame {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 //         */
 //        try {
 //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

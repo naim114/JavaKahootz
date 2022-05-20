@@ -4,7 +4,15 @@
  */
 package javakahootz;
 
-import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.*;
+import org.json.simple.JSONArray;
 
 /**
  *
@@ -31,22 +39,21 @@ public class ManageUser extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         BtnBack = new javax.swing.JButton();
-        LabelName = new javax.swing.JLabel();
-        BtnEdit = new javax.swing.JButton();
-        BtnDelete = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TblUser = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 18)); // NOI18N
         jLabel1.setText("Manage Users");
 
-        BtnBack.setBackground(java.awt.Color.red);
+        BtnBack.setBackground(new java.awt.Color(217, 83, 79));
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
         BtnBack.setText("Back");
@@ -57,34 +64,42 @@ public class ManageUser extends javax.swing.JFrame {
             }
         });
 
-        LabelName.setText("Name #1");
-        LabelName.setToolTipText("");
-
-        BtnEdit.setBackground(new java.awt.Color(0, 102, 255));
-        BtnEdit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnEdit.setForeground(new java.awt.Color(255, 255, 255));
-        BtnEdit.setText("Edit");
-        BtnEdit.setToolTipText("Edit your quiz");
-        BtnEdit.setName(""); // NOI18N
-        BtnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnEditActionPerformed(evt);
-            }
-        });
-
-        BtnDelete.setBackground(java.awt.Color.red);
-        BtnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnDelete.setForeground(new java.awt.Color(255, 255, 255));
-        BtnDelete.setText("Delete");
-        BtnDelete.setToolTipText("Delete Quiz. This action is irreversable.");
-        BtnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnDeleteActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel2.setText("View, edit or delete users.");
+
+        TblUser.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblUserMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TblUser);
+        if (TblUser.getColumnModel().getColumnCount() > 0) {
+            TblUser.getColumnModel().getColumn(1).setResizable(false);
+            TblUser.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,14 +113,10 @@ public class ManageUser extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnBack))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                        .addComponent(BtnEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnDelete))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -117,13 +128,9 @@ public class ManageUser extends javax.swing.JFrame {
                     .addComponent(BtnBack))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(BtnDelete)
-                        .addComponent(BtnEdit))
-                    .addComponent(LabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -135,36 +142,124 @@ public class ManageUser extends javax.swing.JFrame {
         new MainMenu().setVisible(true);
     }//GEN-LAST:event_BtnBackActionPerformed
 
-    private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnEditActionPerformed
-
-    private void BtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnDeleteActionPerformed
-
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
             Users users = new Users();
-            JButton[] btns = new JButton[users.size()];
 
+            DefaultTableModel model = (DefaultTableModel) TblUser.getModel();
+
+            // looping all user data into data table
             for (int i = 0; i < users.size(); i++) {
                 User user = users.get(i);
-                System.out.println(user);
-
-                btns[i] = new JButton("Edit " + user.username);
+                model.addRow(new Object[]{user.username, "Edit", "Delete"});
             }
+
+            // styling edit and delete cell
+            TblUser.getColumnModel().getColumn(1).setCellRenderer(new ColumnColorRenderer(new ThemeColors().warning, Color.WHITE));
+            TblUser.getColumnModel().getColumn(2).setCellRenderer(new ColumnColorRenderer(new ThemeColors().danger, Color.WHITE));
+            TblUser.getColumnModel().getColumn(1).setPreferredWidth(15);
+            TblUser.getColumnModel().getColumn(2).setPreferredWidth(15);
         } catch (Exception e) {
             System.out.println(e);
         }
-    }//GEN-LAST:event_formWindowActivated
+    }//GEN-LAST:event_formWindowOpened
+
+    private void TblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblUserMouseClicked
+        int row = TblUser.rowAtPoint(evt.getPoint());
+        int col = TblUser.columnAtPoint(evt.getPoint());
+
+        try {
+            Users users = new Users();
+            if (row >= 0 && col >= 0) {
+
+                User selected_user = users.getUserByIndex(row);
+
+                if (col == 1) {
+                    System.out.println("Editing " + selected_user.username);
+
+                    if (selected_user.username.equals("admin")) {
+                        JOptionPane.showMessageDialog(null, "Admin can't be edited!");
+                    } else {
+                        this.dispose();
+                        new UserEdit(selected_user).setVisible(true);
+                    }
+                } else if (col == 2) {
+                    System.out.println("Deleting " + selected_user.username);
+                    if (selected_user.username.equals("admin")) {
+                        JOptionPane.showMessageDialog(null, "Admin can't be deleted!");
+                    } else {
+                        int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this user? After deletion data can't be retrieve back.");
+
+                        if (reply == JOptionPane.YES_OPTION) {
+                            try {
+                                JSONArray arr = users.getJSONArray();
+                                int selected_user_index = 0;
+
+                                for (int i = 0; i < users.size(); i++) {
+                                    User checking_user = users.getUserByIndex(i);
+
+                                    if (checking_user.username.equals(selected_user.username)) {
+                                        selected_user_index = i;
+                                    }
+                                }
+                                arr.remove(selected_user_index);
+
+                                // clear text file
+                                FileWriter fwOb = new FileWriter("tb_user.txt", false);
+                                PrintWriter pwOb = new PrintWriter(fwOb, false);
+                                pwOb.flush();
+                                pwOb.close();
+                                fwOb.close();
+
+                                // write back all of users with new user added
+                                FileWriter writer = new FileWriter("tb_user.txt", true);
+                                writer.write(arr.toJSONString());
+
+                                writer.close();
+
+                                // close window
+                                this.dispose();
+                                new ManageUser().setVisible(true);
+                                JOptionPane.showMessageDialog(null, "Success deleting user " + selected_user.username);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_TblUserMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
-    private javax.swing.JButton BtnDelete;
-    private javax.swing.JButton BtnEdit;
-    private javax.swing.JLabel LabelName;
+    private javax.swing.JTable TblUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+}
+
+class ColumnColorRenderer extends DefaultTableCellRenderer {
+
+    Color backgroundColor, foregroundColor;
+
+    public ColumnColorRenderer(Color backgroundColor, Color foregroundColor) {
+        super();
+        this.backgroundColor = backgroundColor;
+        this.foregroundColor = foregroundColor;
+    }
+
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        cell.setBackground(backgroundColor);
+        cell.setForeground(foregroundColor);
+        cell.setFont(cell.getFont().deriveFont(Font.BOLD));
+
+        return cell;
+    }
 }

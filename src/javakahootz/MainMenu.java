@@ -61,7 +61,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        BtnExit.setBackground(new java.awt.Color(255, 51, 51));
+        BtnExit.setBackground(new ThemeColors().danger);
         BtnExit.setFont(new java.awt.Font("Roboto Slab", 0, 18)); // NOI18N
         BtnExit.setForeground(new java.awt.Color(240, 240, 240));
         BtnExit.setText("Exit");
@@ -87,7 +87,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        BtnLogout.setBackground(new java.awt.Color(102, 102, 102));
+        BtnLogout.setBackground(new ThemeColors().dark);
         BtnLogout.setFont(new java.awt.Font("Roboto Slab", 0, 18)); // NOI18N
         BtnLogout.setForeground(new java.awt.Color(255, 255, 255));
         BtnLogout.setText("Logout");
@@ -167,21 +167,25 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnHistoryActionPerformed
 
     private void BtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLogoutActionPerformed
-        // clear current_user text file
-        try {
-            FileWriter fwOb = new FileWriter("tb_current_user.txt", false);
-            PrintWriter pwOb = new PrintWriter(fwOb, false);
-            pwOb.flush();
-            pwOb.close();
-            fwOb.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?");
 
-        // redirect to login
-        this.dispose();
-        new Login().setVisible(true);
-        JOptionPane.showMessageDialog(null, "Thanks for using us :)");
+        if (reply == JOptionPane.YES_OPTION) {
+            // clear current_user text file
+            try {
+                FileWriter fwOb = new FileWriter("tb_current_user.txt", false);
+                PrintWriter pwOb = new PrintWriter(fwOb, false);
+                pwOb.flush();
+                pwOb.close();
+                fwOb.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // redirect to login
+            this.dispose();
+            new Login().setVisible(true);
+            JOptionPane.showMessageDialog(null, "Thanks for using us :)");
+        }
     }//GEN-LAST:event_BtnLogoutActionPerformed
 
     private void BtnManageUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnManageUserActionPerformed

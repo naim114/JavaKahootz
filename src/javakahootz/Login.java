@@ -53,7 +53,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Password");
 
-        BtnLogin.setBackground(new java.awt.Color(102, 102, 102));
+        BtnLogin.setBackground(new ThemeColors().primary);
         BtnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnLogin.setForeground(new java.awt.Color(255, 255, 255));
         BtnLogin.setText("Login");
@@ -66,7 +66,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel1.setText("Don't have an account?");
 
-        BtnSignUp.setBackground(new java.awt.Color(102, 102, 102));
+        BtnSignUp.setBackground(new ThemeColors().info);
         BtnSignUp.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnSignUp.setForeground(new java.awt.Color(255, 255, 255));
         BtnSignUp.setText("Sign Up");
@@ -150,7 +150,6 @@ public class Login extends javax.swing.JFrame {
 
                 userJSON.put("username", user.username);
                 userJSON.put("password", user.password);
-                userJSON.put("delete_flag", user.delete_flag);
 
                 usersJSON.add(userJSON);
 
@@ -163,7 +162,7 @@ public class Login extends javax.swing.JFrame {
                 // redirect to main menu
                 this.dispose();
                 new MainMenu().setVisible(true);
-                JOptionPane.showMessageDialog(null, "Welcome!!");
+                JOptionPane.showMessageDialog(null, "Welcome " + user.username + "!!");
             } else {
                 throw new Exception("Username or Password incorrect!");
             }

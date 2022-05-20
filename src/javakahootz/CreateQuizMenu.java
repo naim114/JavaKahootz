@@ -41,7 +41,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 18)); // NOI18N
         jLabel1.setText("Create Quiz Menu");
 
-        BtnBack.setBackground(java.awt.Color.red);
+        BtnBack.setBackground(new ThemeColors().dark);
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
         BtnBack.setText("Back");
@@ -52,7 +52,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
             }
         });
 
-        BtnCreateQuiz.setBackground(new java.awt.Color(51, 255, 102));
+        BtnCreateQuiz.setBackground(new ThemeColors().primary);
         BtnCreateQuiz.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnCreateQuiz.setForeground(new java.awt.Color(255, 255, 255));
         BtnCreateQuiz.setText("Create New Quiz");
@@ -68,7 +68,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Quiz Title #1");
 
-        BtnDelete.setBackground(java.awt.Color.red);
+        BtnDelete.setBackground(new ThemeColors().danger);
         BtnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnDelete.setForeground(new java.awt.Color(255, 255, 255));
         BtnDelete.setText("Delete");
@@ -79,7 +79,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
             }
         });
 
-        BtnEdit.setBackground(new java.awt.Color(0, 102, 255));
+        BtnEdit.setBackground(new ThemeColors().warning);
         BtnEdit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnEdit.setForeground(new java.awt.Color(255, 255, 255));
         BtnEdit.setText("Edit");
@@ -90,7 +90,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
             }
         });
 
-        BtnEdit1.setBackground(new java.awt.Color(102, 102, 102));
+        BtnEdit1.setBackground(new ThemeColors().info);
         BtnEdit1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnEdit1.setForeground(new java.awt.Color(255, 255, 255));
         BtnEdit1.setText("Leaderboard");
@@ -180,7 +180,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 //         */
 //        try {
 //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -207,7 +207,6 @@ public class CreateQuizMenu extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
     private javax.swing.JButton BtnCreateQuiz;

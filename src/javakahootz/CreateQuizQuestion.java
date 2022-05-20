@@ -53,7 +53,7 @@ public class CreateQuizQuestion extends javax.swing.JFrame {
 
         jLabel1.setText("Enter Question");
 
-        BtnBack.setBackground(new java.awt.Color(153, 153, 153));
+        BtnBack.setBackground(new ThemeColors().dark);
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
         BtnBack.setText("Previous");
@@ -64,7 +64,7 @@ public class CreateQuizQuestion extends javax.swing.JFrame {
             }
         });
 
-        BtnCreateQuiz.setBackground(new java.awt.Color(102, 102, 255));
+        BtnCreateQuiz.setBackground(new ThemeColors().primary);
         BtnCreateQuiz.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnCreateQuiz.setForeground(new java.awt.Color(255, 255, 255));
         BtnCreateQuiz.setText("Next");
@@ -74,7 +74,7 @@ public class CreateQuizQuestion extends javax.swing.JFrame {
             }
         });
 
-        BtnExit.setBackground(new java.awt.Color(255, 0, 51));
+        BtnExit.setBackground(new ThemeColors().danger);
         BtnExit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnExit.setForeground(new java.awt.Color(255, 255, 255));
         BtnExit.setText("Exit & Discard");
@@ -269,7 +269,7 @@ public class CreateQuizQuestion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBackActionPerformed
-        
+
     }//GEN-LAST:event_BtnBackActionPerformed
 
     private void BtnCreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCreateQuizActionPerformed
@@ -321,7 +321,7 @@ public class CreateQuizQuestion extends javax.swing.JFrame {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 //         */
 //        try {
 //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -348,7 +348,6 @@ public class CreateQuizQuestion extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
     private javax.swing.JButton BtnCreateQuiz;

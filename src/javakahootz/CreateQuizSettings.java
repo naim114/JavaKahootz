@@ -42,7 +42,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Roboto Slab Medium", 0, 14)); // NOI18N
         jLabel1.setText("Quiz Settings");
 
-        BtnBack.setBackground(java.awt.Color.red);
+        BtnBack.setBackground(new ThemeColors().dark);
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
         BtnBack.setText("Back");
@@ -53,7 +53,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
             }
         });
 
-        BtnCreateQuiz.setBackground(new java.awt.Color(102, 102, 255));
+        BtnCreateQuiz.setBackground(new ThemeColors().primary);
         BtnCreateQuiz.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnCreateQuiz.setForeground(new java.awt.Color(255, 255, 255));
         BtnCreateQuiz.setText("Continue");
@@ -150,7 +150,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
 
     private void TxtQNoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtQNoKeyTyped
         char c = evt.getKeyChar();
-        if ( ((c < '0') || (c > '9')) && (c != java.awt.event.KeyEvent.VK_BACK_SPACE)) {
+        if (((c < '0') || (c > '9')) && (c != java.awt.event.KeyEvent.VK_BACK_SPACE)) {
             evt.consume();  // if it's not a number, ignore the event
         }
     }//GEN-LAST:event_TxtQNoKeyTyped
@@ -162,7 +162,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 //         */
 //        try {
 //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -189,7 +189,6 @@ public class CreateQuizSettings extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
     private javax.swing.JButton BtnCreateQuiz;

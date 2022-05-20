@@ -59,7 +59,7 @@ public class SignUp extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Password");
 
-        BtnConfirmSignUp.setBackground(new java.awt.Color(0, 0, 255));
+        BtnConfirmSignUp.setBackground(new ThemeColors().success);
         BtnConfirmSignUp.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnConfirmSignUp.setForeground(new java.awt.Color(255, 255, 255));
         BtnConfirmSignUp.setText("Confirm");
@@ -72,7 +72,7 @@ public class SignUp extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel1.setText("Already have an account?");
 
-        BtnLogin.setBackground(new java.awt.Color(102, 102, 102));
+        BtnLogin.setBackground(new ThemeColors().info);
         BtnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnLogin.setForeground(new java.awt.Color(255, 255, 255));
         BtnLogin.setText("Login");
@@ -169,7 +169,6 @@ public class SignUp extends javax.swing.JFrame {
             JSONObject userJSON = new JSONObject();
             userJSON.put("username", name);
             userJSON.put("password", pwd);
-            userJSON.put("delete_flag", false);
 
             usersJSON.add(userJSON);
 

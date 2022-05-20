@@ -1,1 +1,1 @@
-[{"password":"pass","delete_flag":false,"username":"admin"}]
+[{"password":"pass","username":"admin"}]
