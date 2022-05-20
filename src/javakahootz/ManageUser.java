@@ -224,7 +224,6 @@ public class ManageUser extends javax.swing.JFrame {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                         }
                     }
                 }
