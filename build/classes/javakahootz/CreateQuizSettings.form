@@ -48,7 +48,7 @@
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="TxtQAuthor" pref="269" max="32767" attributes="0"/>
+                          <Component id="TxtQCategory" pref="269" max="32767" attributes="0"/>
                           <Component id="TxtQNo" max="32767" attributes="0"/>
                           <Component id="TxtQTitle" max="32767" attributes="0"/>
                       </Group>
@@ -80,9 +80,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                  <Component id="TxtQAuthor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="TxtQCategory" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="145" max="32767" attributes="0"/>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -150,19 +150,13 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="TxtQTitle">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Enter Quiz Title"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
         <Property name="text" type="java.lang.String" value="Quiz Category :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="TxtQAuthor">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Enter Category of Quiz"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="TxtQCategory">
     </Component>
   </SubComponents>
 </Form>

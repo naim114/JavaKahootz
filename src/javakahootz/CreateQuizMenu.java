@@ -4,6 +4,14 @@
  */
 package javakahootz;
 
+import java.awt.Color;
+import java.io.FileReader;
+import java.io.Reader;
+import javax.swing.table.DefaultTableModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 /**
  *
  * @author naimm
@@ -25,19 +33,22 @@ public class CreateQuizMenu extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
         BtnBack = new javax.swing.JButton();
         BtnCreateQuiz = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        BtnDelete = new javax.swing.JButton();
-        BtnEdit = new javax.swing.JButton();
-        BtnEdit1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TblQuiz = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 18)); // NOI18N
         jLabel1.setText("Create Quiz Menu");
@@ -66,93 +77,113 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel2.setText("View your created quiz");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setText("Quiz Title #1");
+        TblQuiz.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        BtnDelete.setBackground(new ThemeColors().danger);
-        BtnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnDelete.setForeground(new java.awt.Color(255, 255, 255));
-        BtnDelete.setText("Delete");
-        BtnDelete.setToolTipText("Delete Quiz. This action is irreversable.");
-        BtnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnDeleteActionPerformed(evt);
+            },
+            new String [] {
+                "Quiz Title", "", "", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-
-        BtnEdit.setBackground(new ThemeColors().warning);
-        BtnEdit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnEdit.setForeground(new java.awt.Color(255, 255, 255));
-        BtnEdit.setText("Edit");
-        BtnEdit.setToolTipText("Edit your quiz");
-        BtnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnEditActionPerformed(evt);
+        TblQuiz.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblQuizMouseClicked(evt);
             }
         });
-
-        BtnEdit1.setBackground(new ThemeColors().info);
-        BtnEdit1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnEdit1.setForeground(new java.awt.Color(255, 255, 255));
-        BtnEdit1.setText("Leaderboard");
-        BtnEdit1.setToolTipText("See the ranking on your quiz");
-        BtnEdit1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnEdit1ActionPerformed(evt);
-            }
-        });
+        jScrollPane1.setViewportView(TblQuiz);
+        if (TblQuiz.getColumnModel().getColumnCount() > 0) {
+            TblQuiz.getColumnModel().getColumn(1).setResizable(false);
+            TblQuiz.getColumnModel().getColumn(2).setResizable(false);
+            TblQuiz.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(BtnBack)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(BtnCreateQuiz))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(BtnEdit1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(BtnEdit)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(BtnDelete)))
-                                .addContainerGap()));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BtnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnCreateQuiz))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(BtnCreateQuiz)
-                                        .addComponent(BtnBack))
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(BtnDelete)
-                                        .addComponent(BtnEdit)
-                                        .addComponent(BtnEdit1))
-                                .addContainerGap(224, Short.MAX_VALUE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnCreateQuiz)
+                    .addComponent(BtnBack))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader("tb_quiz.txt");
+            JSONArray arr = (JSONArray) parser.parse(reader);
+
+            DefaultTableModel model = (DefaultTableModel) TblQuiz.getModel();
+
+            for (int i = 0; i < arr.size(); i++) {
+                Quiz quiz = new Quiz((JSONObject) arr.get(i));
+                System.out.println("\n" + (i + 1) + ". " + quiz.title);
+                model.addRow(new Object[]{quiz.title, "Leaderboard", "Edit", "Delete"});
+            }
+
+            // styling edit and delete cell
+            TblQuiz.getColumnModel().getColumn(1).setCellRenderer(new ColumnColorRenderer(new ThemeColors().info, Color.WHITE));
+            TblQuiz.getColumnModel().getColumn(2).setCellRenderer(new ColumnColorRenderer(new ThemeColors().warning, Color.WHITE));
+            TblQuiz.getColumnModel().getColumn(3).setCellRenderer(new ColumnColorRenderer(new ThemeColors().danger, Color.WHITE));
+            TblQuiz.getColumnModel().getColumn(2).setPreferredWidth(3);
+            TblQuiz.getColumnModel().getColumn(3).setPreferredWidth(3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void TblQuizMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblQuizMouseClicked
+        int row = TblQuiz.rowAtPoint(evt.getPoint());
+        int col = TblQuiz.columnAtPoint(evt.getPoint());
+
+        if (row >= 0 && col >= 0) {
+            if (col == 1) {
+                System.out.println("Leaderboard ");
+            } else if (col == 2) {
+                System.out.println("Editing ");
+
+            } else if (col == 3) {
+                System.out.println("Deleting ");
+            }
+        }
+    }//GEN-LAST:event_TblQuizMouseClicked
 
     private void BtnCreateQuizActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_BtnCreateQuizActionPerformed
         this.dispose();
@@ -181,11 +212,9 @@ public class CreateQuizMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
     private javax.swing.JButton BtnCreateQuiz;
-    private javax.swing.JButton BtnDelete;
-    private javax.swing.JButton BtnEdit;
-    private javax.swing.JButton BtnEdit1;
+    private javax.swing.JTable TblQuiz;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

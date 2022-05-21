@@ -135,6 +135,11 @@ public class Login extends javax.swing.JFrame {
 
             Users users = new Users();
 
+            // check if there is empty field
+            if (username.equals("") || pwd.equals("")) {
+                throw new Exception("Please enter all field.");
+            }
+
             // check if username even exist
             if (users.getUserByUsername(username) == null) {
                 throw new Exception("Username or Password incorrect!");

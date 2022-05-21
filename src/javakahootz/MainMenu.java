@@ -149,7 +149,8 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnAnswerQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAnswerQuizActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new AnswerQuizMenu().setVisible(true);
     }//GEN-LAST:event_BtnAnswerQuizActionPerformed
 
     private void BtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExitActionPerformed

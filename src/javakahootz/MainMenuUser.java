@@ -135,7 +135,8 @@ public class MainMenuUser extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnCreateQuizActionPerformed
 
     private void BtnAnswerQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAnswerQuizActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new AnswerQuizMenu().setVisible(true);
     }//GEN-LAST:event_BtnAnswerQuizActionPerformed
 
     private void BtnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHistoryActionPerformed

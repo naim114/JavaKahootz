@@ -4,6 +4,8 @@
  */
 package javakahootz;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author naimm
@@ -35,7 +37,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         TxtQTitle = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        TxtQAuthor = new javax.swing.JTextField();
+        TxtQCategory = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,11 +76,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
 
         jLabel3.setText("Quiz Title :");
 
-        TxtQTitle.setText("Enter Quiz Title");
-
         jLabel4.setText("Quiz Category :");
-
-        TxtQAuthor.setText("Enter Category of Quiz");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,7 +102,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TxtQAuthor, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                            .addComponent(TxtQCategory, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                             .addComponent(TxtQNo)
                             .addComponent(TxtQTitle))))
                 .addContainerGap())
@@ -128,8 +126,8 @@ public class CreateQuizSettings extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtQAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(145, Short.MAX_VALUE))
+                    .addComponent(TxtQCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -142,10 +140,23 @@ public class CreateQuizSettings extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnBackActionPerformed
 
     private void BtnCreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCreateQuizActionPerformed
-        this.dispose();
+        String question_no = TxtQNo.getText();
+        String title = TxtQTitle.getText();
+        String category = TxtQCategory.getText();
 
-        CreateQuizQuestion cqq = new CreateQuizQuestion();
-        cqq.setVisible(true);
+        try {
+            // check if there is empty field
+            if (question_no.equals("") || title.equals("") || category.equals("")) {
+                throw new Exception("Please enter all field.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+//        this.dispose();
+//
+//        new CreateQuizQuestion().setVisible(true);
     }//GEN-LAST:event_BtnCreateQuizActionPerformed
 
     private void TxtQNoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtQNoKeyTyped
@@ -192,7 +203,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
     private javax.swing.JButton BtnCreateQuiz;
-    private javax.swing.JTextField TxtQAuthor;
+    private javax.swing.JTextField TxtQCategory;
     private javax.swing.JTextField TxtQNo;
     private javax.swing.JTextField TxtQTitle;
     private javax.swing.JLabel jLabel1;
