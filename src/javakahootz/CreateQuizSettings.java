@@ -4,7 +4,18 @@
  */
 package javakahootz;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -134,9 +145,14 @@ public class CreateQuizSettings extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBackActionPerformed
-        this.dispose();
-
-        new CreateQuizMenu().setVisible(true);
+        try {
+            this.dispose();
+            new CreateQuizMenu().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(CreateQuizSettings.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateQuizSettings.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnBackActionPerformed
 
     private void BtnCreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCreateQuizActionPerformed
@@ -150,6 +166,56 @@ public class CreateQuizSettings extends javax.swing.JFrame {
                 throw new Exception("Please enter all field.");
             }
 
+            JSONObject quizJSON = new JSONObject(); //to be added to text file
+
+            quizJSON.put("quiz_id", generateQuizID(title)); //generate id for quiz
+            quizJSON.put("quiz_title", title);
+            quizJSON.put("quiz_category", category);
+            quizJSON.put("question_no", Integer.parseInt(question_no));
+            quizJSON.put("username", new Users().getCurrentUser().username);
+
+            System.out.println("Quiz setting done. On to questions...");
+
+            this.setVisible(false);
+
+            JSONArray answerListJSON = new JSONArray();
+
+            for (int i = 0; i < Integer.parseInt(question_no); i++) {
+                CreateQuestion q = new CreateQuestion(this, true, i);
+
+                JSONObject answerJSON = q.showDialog();
+
+                answerListJSON.add(answerJSON);
+            }
+
+            quizJSON.put("question", answerListJSON);
+
+            System.out.println("Quiz Completed!\n" + quizJSON);
+
+            // save data to to text file
+            // read every quiz
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader("tb_quiz.txt");
+            JSONArray all_quiz = (JSONArray) parser.parse(reader);
+
+            // clear text file
+            FileWriter fwOb = new FileWriter("tb_quiz.txt", false);
+            PrintWriter pwOb = new PrintWriter(fwOb, false);
+            pwOb.flush();
+            pwOb.close();
+            fwOb.close();
+
+            // write back all of quizzes with new quiz added
+            FileWriter writer = new FileWriter("tb_quiz.txt", true);
+            all_quiz.add(quizJSON);
+            System.out.println(all_quiz); //TOTOTOO
+            writer.write(all_quiz.toJSONString());
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Success Created a Quiz!");
+
+            // redirect back to create quiz menu
+            this.dispose();
+            new CreateQuizMenu().setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -166,40 +232,16 @@ public class CreateQuizSettings extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TxtQNoKeyTyped
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(CreateQuizSettings.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(CreateQuizSettings.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(CreateQuizSettings.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(CreateQuizSettings.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new CreateQuizSettings().setVisible(true);
-//            }
-//        });
-//    }
+    public static String generateQuizID(String title) {
+        String result = title.replace(" ", "_");
+        int min = 100000000;
+        int max = 999999999;
+        int random_number = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+        result = result + "_" + random_number;
+
+        return result;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
     private javax.swing.JButton BtnCreateQuiz;

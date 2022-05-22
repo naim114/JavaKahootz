@@ -5,12 +5,16 @@
 package javakahootz;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -18,12 +22,31 @@ import org.json.simple.parser.JSONParser;
  */
 public class CreateQuizMenu extends javax.swing.JFrame {
 
+    final ArrayList<Quiz> question_list;
+
     /**
      * Creates new form CreateQuizMenu
      */
-    public CreateQuizMenu() {
+    public CreateQuizMenu() throws FileNotFoundException, IOException, ParseException {
         initComponents();
         setLocationRelativeTo(null);
+
+        ArrayList<Quiz> question_list_initialize = new ArrayList<>();
+
+        // read every quiz
+        JSONParser parser = new JSONParser();
+        Reader reader = new FileReader("tb_quiz.txt");
+        JSONArray arr = (JSONArray) parser.parse(reader);
+
+        for (int i = 0; i < arr.size(); i++) {
+            Quiz quiz = new Quiz((JSONObject) arr.get(i));
+
+            if (quiz.user.username.equals(new Users().getCurrentUser().username)) {
+                question_list_initialize.add(quiz);
+            }
+        }
+
+        this.question_list = question_list_initialize;
     }
 
     /**
@@ -109,21 +132,19 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BtnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BtnCreateQuiz))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -146,15 +167,12 @@ public class CreateQuizMenu extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
-            JSONParser parser = new JSONParser();
-            Reader reader = new FileReader("tb_quiz.txt");
-            JSONArray arr = (JSONArray) parser.parse(reader);
-
             DefaultTableModel model = (DefaultTableModel) TblQuiz.getModel();
 
-            for (int i = 0; i < arr.size(); i++) {
-                Quiz quiz = new Quiz((JSONObject) arr.get(i));
-                System.out.println("\n" + (i + 1) + ". " + quiz.title);
+            System.out.println("\nAll Quiz Created by current user;");
+            for (int i = 0; i < this.question_list.size(); i++) {
+                Quiz quiz = this.question_list.get(i);
+                System.out.println((i + 1) + ". " + quiz.title);
                 model.addRow(new Object[]{quiz.title, "Leaderboard", "Edit", "Delete"});
             }
 
@@ -162,8 +180,9 @@ public class CreateQuizMenu extends javax.swing.JFrame {
             TblQuiz.getColumnModel().getColumn(1).setCellRenderer(new ColumnColorRenderer(new ThemeColors().info, Color.WHITE));
             TblQuiz.getColumnModel().getColumn(2).setCellRenderer(new ColumnColorRenderer(new ThemeColors().warning, Color.WHITE));
             TblQuiz.getColumnModel().getColumn(3).setCellRenderer(new ColumnColorRenderer(new ThemeColors().danger, Color.WHITE));
-            TblQuiz.getColumnModel().getColumn(2).setPreferredWidth(3);
-            TblQuiz.getColumnModel().getColumn(3).setPreferredWidth(3);
+            TblQuiz.getColumnModel().getColumn(1).setPreferredWidth(5);
+            TblQuiz.getColumnModel().getColumn(2).setPreferredWidth(5);
+            TblQuiz.getColumnModel().getColumn(3).setPreferredWidth(5);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -195,19 +214,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         this.dispose();
 
         new MainMenu().setVisible(true);
-    }// GEN-LAST:event_BtnBackActionPerformed
-
-    private void BtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_BtnDeleteActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_BtnDeleteActionPerformed
-
-    private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_BtnEditActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_BtnEditActionPerformed
-
-    private void BtnEdit1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_BtnEdit1ActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_BtnEdit1ActionPerformed
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;

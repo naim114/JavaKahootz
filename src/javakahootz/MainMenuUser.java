@@ -5,8 +5,12 @@
 package javakahootz;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -131,7 +135,13 @@ public class MainMenuUser extends javax.swing.JFrame {
     private void BtnCreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCreateQuizActionPerformed
         this.dispose();
 
-        new CreateQuizMenu().setVisible(true);
+        try {
+            new CreateQuizMenu().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(MainMenuUser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(MainMenuUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnCreateQuizActionPerformed
 
     private void BtnAnswerQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAnswerQuizActionPerformed

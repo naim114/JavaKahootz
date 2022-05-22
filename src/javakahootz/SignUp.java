@@ -186,7 +186,7 @@ public class SignUp extends javax.swing.JFrame {
             writer.write(usersJSON.toJSONString());
 
             writer.close();
-            JOptionPane.showMessageDialog(null, "Success");
+            JOptionPane.showMessageDialog(null, "Success Created Account!");
 
             // redirect back to login page
             this.dispose();
