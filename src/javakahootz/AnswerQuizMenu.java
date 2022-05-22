@@ -38,7 +38,7 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 18)); // NOI18N
         jLabel1.setText("Answer Quiz Menu");
 
-        BtnBack.setBackground(java.awt.Color.red);
+        BtnBack.setBackground(new ThemeColors().danger);
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
         BtnBack.setText("Back");

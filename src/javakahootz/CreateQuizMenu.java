@@ -7,9 +7,12 @@ package javakahootz;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -76,7 +79,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 18)); // NOI18N
         jLabel1.setText("Create Quiz Menu");
 
-        BtnBack.setBackground(new ThemeColors().dark);
+        BtnBack.setBackground(new ThemeColors().danger);
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
         BtnBack.setText("Back");
@@ -140,7 +143,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnCreateQuiz))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -191,15 +194,64 @@ public class CreateQuizMenu extends javax.swing.JFrame {
     private void TblQuizMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblQuizMouseClicked
         int row = TblQuiz.rowAtPoint(evt.getPoint());
         int col = TblQuiz.columnAtPoint(evt.getPoint());
+        Quiz selected_quiz = null;
 
         if (row >= 0 && col >= 0) {
-            if (col == 1) {
-                System.out.println("Leaderboard ");
-            } else if (col == 2) {
-                System.out.println("Editing ");
+            for (int i = 0; i < this.question_list.size(); i++) {
+                if (i == row) {
+                    selected_quiz = this.question_list.get(i);
+                }
+            }
 
+            if (col == 1) {
+                System.out.println("Leaderboard " + selected_quiz.id);
+            } else if (col == 2) {
+                System.out.println("Editing " + selected_quiz.id);
+                this.dispose();
+
+                new EditQuizSettings(selected_quiz).setVisible(true);
             } else if (col == 3) {
-                System.out.println("Deleting ");
+                System.out.println("Deleting " + selected_quiz.id);
+
+                int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + selected_quiz.title + "? Once deleted data can't be retrieve back.");
+
+                if (reply == JOptionPane.YES_OPTION) {
+                    try {
+                        // save data to to text file
+                        // read every quiz
+                        JSONParser parser = new JSONParser();
+                        Reader reader = new FileReader("tb_quiz.txt");
+                        JSONArray all_quiz = (JSONArray) parser.parse(reader);
+
+                        // remove quiz that want to edit
+                        for (int i = 0; i < all_quiz.size(); i++) {
+                            JSONObject quiz = (JSONObject) all_quiz.get(i);
+
+                            if (quiz.get("quiz_id").equals(selected_quiz.id)) {
+                                all_quiz.remove(i);
+                            }
+                        }
+
+                        // clear text file
+                        FileWriter fwOb = new FileWriter("tb_quiz.txt", false);
+                        PrintWriter pwOb = new PrintWriter(fwOb, false);
+                        pwOb.flush();
+                        pwOb.close();
+                        fwOb.close();
+
+                        // write back all of quizzes with new quiz added
+                        FileWriter writer = new FileWriter("tb_quiz.txt", true);
+                        writer.write(all_quiz.toJSONString());
+                        writer.close();
+                        JOptionPane.showMessageDialog(null, "Success Deleting Quiz " + selected_quiz.title);
+
+                        // redirect back to create quiz menu
+                        this.dispose();
+                        new CreateQuizMenu().setVisible(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }//GEN-LAST:event_TblQuizMouseClicked

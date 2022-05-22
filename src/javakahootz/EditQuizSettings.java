@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javakahootz.CreateQuizSettings.generateQuizID;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,14 +22,18 @@ import org.json.simple.parser.ParseException;
  *
  * @author naimm
  */
-public class CreateQuizSettings extends javax.swing.JFrame {
+public class EditQuizSettings extends javax.swing.JFrame {
+
+    final Quiz quiz_to_edit;
 
     /**
-     * Creates new form CreateQuizSettings
+     * Creates new form EditQuizSettings
      */
-    public CreateQuizSettings() {
+    public EditQuizSettings(Quiz quiz_to_edit) {
         initComponents();
         setLocationRelativeTo(null);
+
+        this.quiz_to_edit = quiz_to_edit;
     }
 
     /**
@@ -42,15 +47,20 @@ public class CreateQuizSettings extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         BtnBack = new javax.swing.JButton();
-        BtnCreateQuiz = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         TxtQNo = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         TxtQTitle = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         TxtQCategory = new javax.swing.JTextField();
+        BtnCreateQuestion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Roboto Slab Medium", 0, 14)); // NOI18N
         jLabel1.setText("Quiz Settings");
@@ -66,19 +76,10 @@ public class CreateQuizSettings extends javax.swing.JFrame {
             }
         });
 
-        BtnCreateQuiz.setBackground(new ThemeColors().primary);
-        BtnCreateQuiz.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        BtnCreateQuiz.setForeground(new java.awt.Color(255, 255, 255));
-        BtnCreateQuiz.setText("Continue");
-        BtnCreateQuiz.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCreateQuizActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Question No. :");
 
         TxtQNo.setToolTipText("Please enter number only");
+        TxtQNo.setAutoscrolls(false);
         TxtQNo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TxtQNoKeyTyped(evt);
@@ -89,6 +90,16 @@ public class CreateQuizSettings extends javax.swing.JFrame {
 
         jLabel4.setText("Quiz Category :");
 
+        BtnCreateQuestion.setBackground(new ThemeColors().primary);
+        BtnCreateQuestion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BtnCreateQuestion.setForeground(new java.awt.Color(255, 255, 255));
+        BtnCreateQuestion.setText("Continue");
+        BtnCreateQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCreateQuestionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,25 +108,25 @@ public class CreateQuizSettings extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnCreateQuiz))
+                        .addComponent(BtnCreateQuestion))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TxtQCategory, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                            .addComponent(TxtQCategory)
                             .addComponent(TxtQNo)
-                            .addComponent(TxtQTitle))))
+                            .addComponent(TxtQTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -124,9 +135,9 @@ public class CreateQuizSettings extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnCreateQuiz)
-                    .addComponent(BtnBack))
-                .addGap(18, 18, 18)
+                    .addComponent(BtnBack)
+                    .addComponent(BtnCreateQuestion))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtQNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -138,7 +149,7 @@ public class CreateQuizSettings extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtQCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -149,13 +160,26 @@ public class CreateQuizSettings extends javax.swing.JFrame {
             this.dispose();
             new CreateQuizMenu().setVisible(true);
         } catch (IOException ex) {
-            Logger.getLogger(CreateQuizSettings.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditQuizSettings.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(CreateQuizSettings.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditQuizSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_BtnBackActionPerformed
 
-    private void BtnCreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCreateQuizActionPerformed
+    private void TxtQNoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtQNoKeyTyped
+        char c = evt.getKeyChar();
+        if (((c < '0') || (c > '9')) && (c != java.awt.event.KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();  // if it's not a number, ignore the event
+        }
+    }//GEN-LAST:event_TxtQNoKeyTyped
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        TxtQNo.setText(String.valueOf(this.quiz_to_edit.question_no));
+        TxtQTitle.setText(this.quiz_to_edit.title);
+        TxtQCategory.setText(this.quiz_to_edit.category);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void BtnCreateQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCreateQuestionActionPerformed
         String question_no = TxtQNo.getText();
         String title = TxtQTitle.getText();
         String category = TxtQCategory.getText();
@@ -166,6 +190,22 @@ public class CreateQuizSettings extends javax.swing.JFrame {
                 throw new Exception("Please enter all field.");
             }
 
+            // save data to to text file
+            // read every quiz
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader("tb_quiz.txt");
+            JSONArray all_quiz = (JSONArray) parser.parse(reader);
+
+            // remove quiz that want to edit
+            for (int i = 0; i < all_quiz.size(); i++) {
+                JSONObject quiz = (JSONObject) all_quiz.get(i);
+
+                if (quiz.get("quiz_id").equals(this.quiz_to_edit.id)) {
+                    all_quiz.remove(i);
+                }
+            }
+
+            // create new quiz
             JSONObject quizJSON = new JSONObject(); //to be added to text file
 
             quizJSON.put("quiz_id", generateQuizID(title)); //generate id for quiz
@@ -193,11 +233,6 @@ public class CreateQuizSettings extends javax.swing.JFrame {
             System.out.println("Quiz Completed!\n" + quizJSON);
 
             // save data to to text file
-            // read every quiz
-            JSONParser parser = new JSONParser();
-            Reader reader = new FileReader("tb_quiz.txt");
-            JSONArray all_quiz = (JSONArray) parser.parse(reader);
-
             // clear text file
             FileWriter fwOb = new FileWriter("tb_quiz.txt", false);
             PrintWriter pwOb = new PrintWriter(fwOb, false);
@@ -218,32 +253,11 @@ public class CreateQuizSettings extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }//GEN-LAST:event_BtnCreateQuestionActionPerformed
 
-//        this.dispose();
-//
-//        new CreateQuizQuestion().setVisible(true);
-    }//GEN-LAST:event_BtnCreateQuizActionPerformed
-
-    private void TxtQNoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtQNoKeyTyped
-        char c = evt.getKeyChar();
-        if (((c < '0') || (c > '9')) && (c != java.awt.event.KeyEvent.VK_BACK_SPACE)) {
-            evt.consume();  // if it's not a number, ignore the event
-        }
-    }//GEN-LAST:event_TxtQNoKeyTyped
-
-    public static String generateQuizID(String title) {
-        String result = title.replace(" ", "_");
-        int min = 100000000;
-        int max = 999999999;
-        int random_number = (int) Math.floor(Math.random() * (max - min + 1) + min);
-
-        result = result + "_" + random_number;
-
-        return result;
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
-    private javax.swing.JButton BtnCreateQuiz;
+    private javax.swing.JButton BtnCreateQuestion;
     private javax.swing.JTextField TxtQCategory;
     private javax.swing.JTextField TxtQNo;
     private javax.swing.JTextField TxtQTitle;
