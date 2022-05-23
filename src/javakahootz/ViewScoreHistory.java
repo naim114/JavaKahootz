@@ -4,7 +4,6 @@
  */
 package javakahootz;
 
-import java.awt.Color;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -17,35 +16,14 @@ import org.json.simple.parser.JSONParser;
  *
  * @author naimm
  */
-public class AnswerQuizMenu extends javax.swing.JFrame {
-
-    final ArrayList<Quiz> quiz_list;
+public class ViewScoreHistory extends javax.swing.JFrame {
 
     /**
-     * Creates new form AnswerQuizMenu
+     * Creates new form ScoreHistory
      */
-    public AnswerQuizMenu() {
+    public ViewScoreHistory() {
         initComponents();
         setLocationRelativeTo(null);
-
-        ArrayList<Quiz> quizzes = new ArrayList<>();
-
-        try {
-            // read every quiz
-            JSONParser parser = new JSONParser();
-            Reader reader = new FileReader("tb_quiz.txt");
-            JSONArray allQuizJSON = (JSONArray) parser.parse(reader);
-
-            for (int i = 0; i < allQuizJSON.size(); i++) {
-                Quiz q = new Quiz((JSONObject) allQuizJSON.get(i));
-
-                quizzes.add(q);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        this.quiz_list = quizzes;
     }
 
     /**
@@ -59,9 +37,8 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         BtnBack = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TblQuiz = new javax.swing.JTable();
+        TblScore = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -71,9 +48,9 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 18)); // NOI18N
-        jLabel1.setText("Answer Quiz Menu");
+        jLabel1.setText("Score History");
 
-        BtnBack.setBackground(new ThemeColors().danger);
+        BtnBack.setBackground(new java.awt.Color(217, 83, 79));
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
         BtnBack.setText("Back");
@@ -84,34 +61,23 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel2.setText("Select quiz that you want to answer");
-
-        TblQuiz.setModel(new javax.swing.table.DefaultTableModel(
+        TblScore.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Quiz Title", "Category", "Author", ""
+                "No.", "Title", "Score"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        TblQuiz.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TblQuizMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(TblQuiz);
-        if (TblQuiz.getColumnModel().getColumnCount() > 0) {
-            TblQuiz.getColumnModel().getColumn(3).setResizable(false);
-        }
+        jScrollPane1.setViewportView(TblScore);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,27 +88,23 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnBack))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnBack))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,43 +118,38 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
-            DefaultTableModel model = (DefaultTableModel) TblQuiz.getModel();
+            ArrayList<ScoreHistory> score_histories = new ArrayList<>();
 
-            System.out.println("\nAll Quiz (faiz akasyah);");
-            for (int i = 0; i < this.quiz_list.size(); i++) {
-                Quiz quiz = this.quiz_list.get(i);
-                System.out.println((i + 1) + ". " + quiz.title);
-                model.addRow(new Object[]{quiz.title, quiz.category, quiz.user.username, "Play"});
+            User current_user = new Users().getCurrentUser();
+
+            // read every quiz
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader("tb_score_history.txt");
+            JSONArray allHistoryJSON = (JSONArray) parser.parse(reader);
+
+            for (int i = 0; i < allHistoryJSON.size(); i++) {
+                ScoreHistory s = new ScoreHistory((JSONObject) allHistoryJSON.get(i));
+
+                if (s.user.username.equals(current_user.username)) {
+                    score_histories.add(s);
+                }
             }
 
-            // styling play cell
-            TblQuiz.getColumnModel().getColumn(3).setCellRenderer(new ColumnColorRenderer(new ThemeColors().success, Color.WHITE));
+            DefaultTableModel model = (DefaultTableModel) TblScore.getModel();
+
+            for (int i = 0; i < score_histories.size(); i++) {
+                ScoreHistory score = score_histories.get(i);
+                model.addRow(new Object[]{(i + 1), score.quiz.title, (score.score + "/" + score.question_list)});
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_formWindowOpened
 
-    private void TblQuizMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblQuizMouseClicked
-        int row = TblQuiz.rowAtPoint(evt.getPoint());
-        int col = TblQuiz.columnAtPoint(evt.getPoint());
-
-        if (row >= 0 && col >= 0) {
-            Quiz selected_quiz = this.quiz_list.get(row);
-
-            if (col == 3) {
-                System.out.println("Starting quiz " + selected_quiz.title);
-
-                this.dispose();
-                new AnswerQuizReady(selected_quiz).setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_TblQuizMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
-    private javax.swing.JTable TblQuiz;
+    private javax.swing.JTable TblScore;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

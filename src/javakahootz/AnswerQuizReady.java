@@ -4,6 +4,19 @@
  */
 package javakahootz;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 /**
  *
  * @author naimm
@@ -185,9 +198,44 @@ public class AnswerQuizReady extends javax.swing.JFrame {
         System.out.println("Percent: " + ((double) score / (double) this.quiz.question_list.size()));
 
         // save to textfile
-        // redirect back to finish answer
-        this.dispose();
-        new AnswerQuizFinish(score, this.quiz.question_list.size()).setVisible(true);
+        try {
+            // get current user
+            User current_user = new Users().getCurrentUser();
+
+            // get all score
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader("tb_score_history.txt");
+            JSONArray allScoreJSON = (JSONArray) parser.parse(reader);
+
+            JSONObject scoreJSON = new JSONObject();
+            scoreJSON.put("id", generateID(score));
+            scoreJSON.put("user", current_user.username);
+            scoreJSON.put("quiz", this.quiz.id);
+            scoreJSON.put("score", score);
+            scoreJSON.put("question_list", this.quiz.question_no);
+
+            allScoreJSON.add(scoreJSON);
+
+            // clear text file
+            FileWriter fwOb = new FileWriter("tb_score_history.txt", false);
+            PrintWriter pwOb = new PrintWriter(fwOb, false);
+            pwOb.flush();
+            pwOb.close();
+            fwOb.close();
+
+            // write back all of users with new user added
+            FileWriter writer = new FileWriter("tb_score_history.txt", true);
+            writer.write(allScoreJSON.toJSONString());
+
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Quiz Finished!");
+
+            // redirect back to finish answer
+            this.dispose();
+            new AnswerQuizFinish(score, this.quiz.question_list.size()).setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_BtnPlayActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -196,6 +244,31 @@ public class AnswerQuizReady extends javax.swing.JFrame {
         TxtQTitle.setText(quiz.title);
     }//GEN-LAST:event_formWindowOpened
 
+    public String generateID(int score) {
+        String result = "";
+        try {
+            User current_user = new Users().getCurrentUser();
+
+            String username = current_user.username;
+
+            username = username.replace(" ", "_");
+
+            String quiz_id = this.quiz.id;
+
+            int min = 100000000;
+            int max = 999999999;
+            int random_number = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            result = username + "_" + quiz_id + "_" + score + "_" + random_number;
+
+        } catch (IOException ex) {
+            Logger.getLogger(AnswerQuizReady.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(AnswerQuizReady.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
     private javax.swing.JButton BtnPlay;

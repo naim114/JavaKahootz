@@ -172,8 +172,6 @@ public class SignUp extends javax.swing.JFrame {
 
             usersJSON.add(userJSON);
 
-            System.out.println(usersJSON);
-
             // clear text file
             FileWriter fwOb = new FileWriter("tb_user.txt", false);
             PrintWriter pwOb = new PrintWriter(fwOb, false);

@@ -174,7 +174,8 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnCreateQuizActionPerformed
 
     private void BtnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHistoryActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new ViewScoreHistory().setVisible(true);
     }//GEN-LAST:event_BtnHistoryActionPerformed
 
     private void BtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLogoutActionPerformed
