@@ -25,7 +25,7 @@ import org.json.simple.parser.ParseException;
  */
 public class CreateQuizMenu extends javax.swing.JFrame {
 
-    final ArrayList<Quiz> question_list;
+    final ArrayList<Quiz> quiz_list;
 
     /**
      * Creates new form CreateQuizMenu
@@ -34,7 +34,7 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
-        ArrayList<Quiz> question_list_initialize = new ArrayList<>();
+        ArrayList<Quiz> quiz_list_initialize = new ArrayList<>();
 
         // read every quiz
         JSONParser parser = new JSONParser();
@@ -45,11 +45,11 @@ public class CreateQuizMenu extends javax.swing.JFrame {
             Quiz quiz = new Quiz((JSONObject) arr.get(i));
 
             if (quiz.user.username.equals(new Users().getCurrentUser().username)) {
-                question_list_initialize.add(quiz);
+                quiz_list_initialize.add(quiz);
             }
         }
 
-        this.question_list = question_list_initialize;
+        this.quiz_list = quiz_list_initialize;
     }
 
     /**
@@ -173,8 +173,8 @@ public class CreateQuizMenu extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) TblQuiz.getModel();
 
             System.out.println("\nAll Quiz Created by current user;");
-            for (int i = 0; i < this.question_list.size(); i++) {
-                Quiz quiz = this.question_list.get(i);
+            for (int i = 0; i < this.quiz_list.size(); i++) {
+                Quiz quiz = this.quiz_list.get(i);
                 System.out.println((i + 1) + ". " + quiz.title);
                 model.addRow(new Object[]{quiz.title, "Leaderboard", "Edit", "Delete"});
             }
@@ -197,9 +197,9 @@ public class CreateQuizMenu extends javax.swing.JFrame {
         Quiz selected_quiz = null;
 
         if (row >= 0 && col >= 0) {
-            for (int i = 0; i < this.question_list.size(); i++) {
+            for (int i = 0; i < this.quiz_list.size(); i++) {
                 if (i == row) {
-                    selected_quiz = this.question_list.get(i);
+                    selected_quiz = this.quiz_list.get(i);
                 }
             }
 

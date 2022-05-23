@@ -4,11 +4,22 @@
  */
 package javakahootz;
 
+import java.awt.Color;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 /**
  *
  * @author naimm
  */
 public class AnswerQuizMenu extends javax.swing.JFrame {
+
+    final ArrayList<Quiz> quiz_list;
 
     /**
      * Creates new form AnswerQuizMenu
@@ -16,6 +27,25 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
     public AnswerQuizMenu() {
         initComponents();
         setLocationRelativeTo(null);
+
+        ArrayList<Quiz> quizzes = new ArrayList<>();
+
+        try {
+            // read every quiz
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader("tb_quiz.txt");
+            JSONArray allQuizJSON = (JSONArray) parser.parse(reader);
+
+            for (int i = 0; i < allQuizJSON.size(); i++) {
+                Quiz q = new Quiz((JSONObject) allQuizJSON.get(i));
+
+                quizzes.add(q);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.quiz_list = quizzes;
     }
 
     /**
@@ -31,9 +61,14 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
         BtnBack = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TblQuiz = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Roboto Slab SemiBold", 0, 18)); // NOI18N
         jLabel1.setText("Answer Quiz Menu");
@@ -52,7 +87,7 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel2.setText("Select quiz that you want to answer");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TblQuiz.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -68,11 +103,14 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        TblQuiz.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblQuizMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TblQuiz);
+        if (TblQuiz.getColumnModel().getColumnCount() > 0) {
+            TblQuiz.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -116,45 +154,46 @@ public class AnswerQuizMenu extends javax.swing.JFrame {
         new MainMenu().setVisible(true);
     }//GEN-LAST:event_BtnBackActionPerformed
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(AnswerQuizMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(AnswerQuizMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(AnswerQuizMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(AnswerQuizMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new AnswerQuizMenu().setVisible(true);
-//            }
-//        });
-//    }
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            DefaultTableModel model = (DefaultTableModel) TblQuiz.getModel();
+
+            System.out.println("\nAll Quiz (faiz akasyah);");
+            for (int i = 0; i < this.quiz_list.size(); i++) {
+                Quiz quiz = this.quiz_list.get(i);
+                System.out.println((i + 1) + ". " + quiz.title);
+                model.addRow(new Object[]{quiz.title, quiz.category, quiz.user.username, "Play"});
+            }
+
+            // styling play cell
+            TblQuiz.getColumnModel().getColumn(3).setCellRenderer(new ColumnColorRenderer(new ThemeColors().success, Color.WHITE));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void TblQuizMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblQuizMouseClicked
+        int row = TblQuiz.rowAtPoint(evt.getPoint());
+        int col = TblQuiz.columnAtPoint(evt.getPoint());
+
+        if (row >= 0 && col >= 0) {
+            Quiz selected_quiz = this.quiz_list.get(row);
+
+            if (col == 3) {
+                System.out.println("Starting quiz " + selected_quiz.title);
+
+                this.dispose();
+                new AnswerQuizReady(selected_quiz).setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_TblQuizMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBack;
+    private javax.swing.JTable TblQuiz;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
