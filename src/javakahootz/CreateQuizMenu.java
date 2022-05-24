@@ -205,6 +205,9 @@ public class CreateQuizMenu extends javax.swing.JFrame {
 
             if (col == 1) {
                 System.out.println("Leaderboard " + selected_quiz.id);
+                this.dispose();
+
+                new Leaderboard(selected_quiz.id).setVisible(true);
             } else if (col == 2) {
                 System.out.println("Editing " + selected_quiz.id);
                 this.dispose();
