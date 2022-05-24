@@ -19,9 +19,20 @@
 - View your quiz's leaderboard
 
 ### Image
+1. Main Menu
 <img src="/sample/javakahootz1.png" height="200">
-<img src="/sample/javakahootz2.png" height="200"> 
-<img src="/sample/javakahootz3.png" height="200"> 
-<img src="/sample/javakahootz4.png" height="200"> 
+
+2. Create Quiz Setting
+<img src="/sample/javakahootz2.png" height="200">
+
+3. Create Question
+<img src="/sample/javakahootz3.png" height="200">
+
+4. List of Quiz Available
+<img src="/sample/javakahootz4.png" height="200">
+
+5. Answer Question
 <img src="/sample/javakahootz5.png" height="200">
+
+6. End of Quiz
 <img src="/sample/javakahootz6.png" height="200">  
