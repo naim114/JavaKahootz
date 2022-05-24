@@ -17,3 +17,11 @@
 - Answer Quiz
 - View your score history
 - View your quiz's leaderboard
+
+### Image
+<img src="/sample/javakahootz1.png" height="200">
+<img src="/sample/javakahootz2.png" height="200"> 
+<img src="/sample/javakahootz3.png" height="200"> 
+<img src="/sample/javakahootz4.png" height="200"> 
+<img src="/sample/javakahootz5.png" height="200">
+<img src="/sample/javakahootz6.png" height="200">  
