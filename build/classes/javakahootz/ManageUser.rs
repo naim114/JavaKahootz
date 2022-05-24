@@ -1,2 +1,0 @@
-javakahootz.ManageUser
-javakahootz.ColumnColorRenderer
